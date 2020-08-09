@@ -76,6 +76,14 @@ app.get('/info', (req, res) => {
           error: 'number missing' 
         })
       }
+
+    const personTest = persons.find(person => person.name === body.name)
+
+    if (personTest) {
+        return res.status(400).json({ 
+            error: 'name already in database! Name must be unique' 
+          })
+    }
   
     const person = {
       name: body.name,

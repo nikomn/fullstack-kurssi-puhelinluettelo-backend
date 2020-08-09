@@ -57,7 +57,7 @@ app.get('/info', (req, res) => {
     console.log(`creted new id: ${id}`)
     const test = persons.filter(person => person.id === id)
     if (test.length > 0) {
-        console.log(`${id} already in use...`)
+        console.log(`${id} already in use..`)
     }
     return id
   }

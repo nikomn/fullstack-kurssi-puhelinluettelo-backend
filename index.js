@@ -29,28 +29,7 @@ morgan.token('post-data', function (req, res) {
 
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :post-data'))
 
-let persons = [
-  {
-    name: "Arto Hellas",
-    number: "040-123456",
-    id: 1
-  },
-  {
-    name: "Ada Lovelace",
-    number: "39-44-5323523",
-    id: 2
-  },
-  {
-    name: "Dan Abramov",
-    number: "12-43-234345",
-    id: 3
-  },
-  {
-    name: "Mary Poppendieck",
-    number: "39-23-6423122",
-    id: 4
-  }
-]
+let persons = Person.find({})
 
 app.get('/api/persons', (req, res) => {
   Person.find({}).then(persons => {
@@ -104,6 +83,26 @@ app.post('/api/persons', (req, res) => {
     res.json(savedPerson)
   })
 })
+
+app.put('/api/persons/:id', (req, res, next) => {
+  /* const body = req.body
+  const person = new Person({
+    name: body.name,
+    number: body.number
+  })
+  console.log(person) */
+  console.log(req.body)
+
+  Person.findByIdAndUpdate(req.params.id,{$set:req.body})
+    .then(result => {
+      res.json(req.body)
+    })
+    .catch(error => next(error))
+
+  
+
+})
+
 
 app.delete('/api/persons/:id', (req, res, next) => {
   Person.findByIdAndRemove(req.params.id)

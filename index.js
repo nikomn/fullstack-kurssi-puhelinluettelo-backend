@@ -29,7 +29,8 @@ morgan.token('post-data', function (req, res) {
 
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :post-data'))
 
-let persons = Person.find({})
+//let persons = Person.find({})
+//console.log(persons)
 
 app.get('/api/persons', (req, res) => {
   Person.find({}).then(persons => {
@@ -38,9 +39,10 @@ app.get('/api/persons', (req, res) => {
 })
 
 app.get('/info', (req, res) => {
+  Person.find({}).then(persons => {
     res.send("Phonebook has info for " + persons.length + " people<p>" + new Date() + "</p>")
-    //res.send('<h1>Hello World!</h1>')
-    })
+  })
+})
 
 app.get('/api/persons/:id', (req, res, next) => {
   Person.findById(req.params.id)

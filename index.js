@@ -82,36 +82,21 @@ const generateId = () => {
 app.post('/api/persons', (req, res) => {
   const body = req.body
 
-  if (!body.name) {
-    return res.status(400).json({ 
-      error: 'name missing' 
-    })
+  if (body.name === undefined || body.name === "") {
+    return res.status(400).json({ error: 'no name defined!' })
+  }
+  if (body.number === undefined || body.number === "") {
+    return res.status(400).json({ error: 'no number defined!' })
   }
 
-  if (!body.number) {
-      return res.status(400).json({ 
-        error: 'number missing' 
-      })
-    }
-
-  const personTest = persons.find(person => person.name === body.name)
-
-  if (personTest) {
-      return res.status(400).json({ 
-          error: 'name already in database! Name must be unique' 
-        })
-  }
-
-  const person = {
+  const person = new Person({
     name: body.name,
-    number: body.number,
-    id: generateId()
-  }
+    number: body.number
+  })
 
-
-  persons = persons.concat(person)
-
-  res.json(person)
+  person.save().then(savedPerson => {
+    res.json(savedPerson)
+  })
 })
 
 app.delete('/api/persons/:id', (req, res) => {

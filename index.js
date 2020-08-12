@@ -16,15 +16,15 @@ const morgan = require('morgan')
 const password = process.argv[2]
 console.log(password) */
 
-morgan.token('post-data', function (req, res) {
+morgan.token('post-data', function (req) {
   /* console.log(req.method)
   if (req.method === "POST") {
-    return JSON.stringify(req.body) 
+    return JSON.stringify(req.body)
   } else {
     return ""
   } */
-  return JSON.stringify(req.body) 
-  
+  return JSON.stringify(req.body)
+
 })
 
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :post-data'))
@@ -40,7 +40,7 @@ app.get('/api/persons', (req, res) => {
 
 app.get('/info', (req, res) => {
   Person.find({}).then(persons => {
-    res.send("Phonebook has info for " + persons.length + " people<p>" + new Date() + "</p>")
+    res.send('Phonebook has info for ' + persons.length + ' people<p>' + new Date() + '</p>')
   })
 })
 
@@ -56,23 +56,15 @@ app.get('/api/persons/:id', (req, res, next) => {
     .catch(error => next(error))
 })
 
-const generateId = () => {
-  const id = Math.floor(Math.random() * (999999 - 1000) + 1000)
-  console.log(`creted new id: ${id}`)
-  const test = persons.filter(person => person.id === id)
-  if (test.length > 0) {
-      console.log(`${id} already in use..`)
-  }
-  return id
-}
+
 
 app.post('/api/persons', (req, res, next) => {
   const body = req.body
 
-  if (body.name === undefined || body.name === "") {
+  if (body.name === undefined || body.name === '') {
     return res.status(400).json({ error: 'no name defined!' })
   }
-  if (body.number === undefined || body.number === "") {
+  if (body.number === undefined || body.number === '') {
     return res.status(400).json({ error: 'no number defined!' })
   }
 
@@ -84,7 +76,7 @@ app.post('/api/persons', (req, res, next) => {
   person.save().then(savedPerson => {
     res.json(savedPerson)
   })
-  .catch(error => next(error))
+    .catch(error => next(error))
 })
 
 app.put('/api/persons/:id', (req, res, next) => {
@@ -96,20 +88,23 @@ app.put('/api/persons/:id', (req, res, next) => {
   console.log(person) */
   console.log(req.body)
 
-  Person.findByIdAndUpdate(req.params.id,{$set:req.body})
-    .then(result => {
+  Person.findByIdAndUpdate(req.params.id,{ $set:req.body })
+    .then(() => {
+    //.then(result => {
+      //console.log(result)
       res.json(req.body)
     })
     .catch(error => next(error))
 
-  
+
 
 })
 
 
 app.delete('/api/persons/:id', (req, res, next) => {
   Person.findByIdAndRemove(req.params.id)
-    .then(result => {
+    .then(() => {
+    //.then(result => {
       res.status(204).end()
     })
     .catch(error => next(error))
@@ -137,6 +132,6 @@ app.use(errorHandler)
 
 //const PORT = process.env.PORT || 3001
 const PORT = process.env.PORT
-  app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`)
-  })
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`)
+})

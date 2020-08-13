@@ -9,3 +9,7 @@ https://tranquil-wave-27765.herokuapp.com/api/persons
 ## Internetissä toimiva sovellus (3.11 puhelinluettelo full stack)
 
 https://tranquil-wave-27765.herokuapp.com/
+
+## Frontend
+
+Frontendin osalta tehdyt muutokset -> https://github.com/nikomn/fullstack-kurssi-palautusrepositorio/tree/master/osa2/puhelinluettelo
